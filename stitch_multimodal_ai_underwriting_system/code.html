@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Aegis Risk Intelligence | Commercial Underwriting Cockpit</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "background": "#060e20",
+            "surface": "#0b1326",
+            "surface-container-lowest": "#050a18",
+            "surface-container-low": "#0e172e",
+            "surface-container": "#14203d",
+            "surface-container-high": "#1b284d",
+            "surface-container-highest": "#243460",
+            "outline": "#4b5b82",
+            "outline-variant": "#223154",
+            "on-surface": "#f1f5f9",
+            "on-surface-variant": "#94a3b8",
+            "primary": "#818cf8",
+            "primary-container": "#4338ca",
+            "on-primary-container": "#e0e7ff",
+            "secondary": "#2dd4bf",
+            "secondary-container": "#0f766e",
+            "on-secondary-container": "#ccfbf1",
+            "tertiary": "#fbbf24",
+            "tertiary-container": "#b45309",
+            "on-tertiary-container": "#fef3c7",
+            "error": "#f87171",
+            "error-container": "#991b1b",
+            "on-error-container": "#fee2e2"
+          },
+          fontFamily: {
+            sans: ["Inter", "sans-serif"],
+            mono: ["JetBrains Mono", "monospace"]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    @layer base {
+      body {
+        overscroll-behavior: none;
+        background-color: #060e20;
+      }
+    }
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #060e20;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1e293b;
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #334155;
+    }
+    .hud-border-cyan {
+      border: 1px solid rgba(45, 212, 191, 0.4);
+      box-shadow: 0 0 15px rgba(45, 212, 191, 0.15), inset 0 0 10px rgba(45, 212, 191, 0.08);
+    }
+    .hud-border-amber {
+      border: 1px solid rgba(251, 191, 36, 0.45);
+      box-shadow: 0 0 18px rgba(251, 191, 36, 0.18), inset 0 0 10px rgba(251, 191, 36, 0.08);
+    }
+    .hud-border-red {
+      border: 1px solid rgba(248, 113, 113, 0.55);
+      box-shadow: 0 0 20px rgba(248, 113, 113, 0.25), inset 0 0 12px rgba(248, 113, 113, 0.12);
+    }
+    .glass-card {
+      background: linear-gradient(135deg, rgba(17, 27, 53, 0.72) 0%, rgba(10, 18, 38, 0.88) 100%);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .hud-reticle {
+      background-image: radial-gradient(rgba(129, 140, 248, 0.12) 1px, transparent 0);
+      background-size: 20px 20px;
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface font-sans antialiased selection:bg-primary/30 selection:text-primary">
+<!-- Left Navigation Rail: High-Precision Terminal Style -->
+<aside class="fixed left-0 top-0 h-full w-60 bg-surface-container-lowest border-r border-outline-variant/40 z-50 flex flex-col justify-between">
+<div class="flex flex-col">
+<!-- Brand Bar -->
+<div class="h-16 px-4 flex items-center justify-between border-b border-outline-variant/30">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-lg overflow-hidden bg-surface-container flex items-center justify-center p-0.5 border border-indigo-500/30">
+<img alt="Aegis Risk" class="w-full h-full object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1UKMZStUSL2HWKnqrFTh2MClrI6gT5fw1gXmsAbXBWEPRcKLRfdqXxQyW5bUXITjqB0cS0qoTN05D92zWD3IFLge56_BWBwOkTwcKc5Hruvg-DirM0AVRyE8v69H4VOwiLhzCYHt3RZf3cFIRFHJlU571SRH7ibUaDl-yCNo5qaKDja1bNJfNXrytvIhNz1VpxQRYPUgJQ0rQLnwhiQAIxr_lVcBy1cQLhi-6bKOIsFJTrnnnXvZuNZ"/>
+</div>
+<div class="flex flex-col">
+<span class="font-sans font-bold text-sm tracking-tight text-white flex items-center gap-1">
+              AEGIS <span class="text-primary font-normal text-xs uppercase tracking-widest px-1 py-0.2 rounded bg-primary/10 border border-primary/20">IQ</span>
+</span>
+<span class="font-mono text-[10px] text-on-surface-variant/70 tracking-wider">UNDERWRITING ENGINE</span>
+</div>
+</div>
+<span class="font-mono text-[10px] px-1.5 py-0.5 rounded bg-surface-container border border-outline-variant/50 text-secondary font-medium">LIVE</span>
+</div>
+<!-- Portfolio Scope Switcher -->
+<div class="p-3.5 border-b border-outline-variant/20">
+<label class="font-mono text-[10px] text-on-surface-variant uppercase tracking-wider block mb-1.5 font-medium">Underwriting Mandate</label>
+<div class="flex items-center justify-between px-2.5 py-2 rounded bg-surface-container-low border border-outline-variant/40 hover:border-primary/40 transition-colors cursor-pointer group">
+<div class="flex flex-col min-w-0">
+<span class="font-sans text-xs text-white font-medium truncate">Texas Metro Commercial</span>
+<span class="font-mono text-[10px] text-primary/80">Austin Habitational CRE</span>
+</div>
+<span class="material-symbols-outlined text-outline text-[16px] group-hover:text-on-surface transition-colors">expand_more</span>
+</div>
+</div>
+<!-- Navigation Links -->
+<nav class="flex flex-col gap-1 p-2.5">
+<a class="flex items-center gap-2.5 px-3 py-2 rounded bg-primary/15 border border-primary/30 text-white font-medium text-xs transition-all shadow-[0_0_12px_rgba(99,102,241,0.15)]" href="#">
+<span class="material-symbols-outlined text-primary text-[18px]">verified_user</span>
+<span>Decision Cockpit</span>
+</a>
+<a class="flex items-center justify-between px-3 py-2 rounded text-on-surface-variant hover:text-white hover:bg-surface-container/60 transition-colors text-xs font-medium" href="#">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-[18px]">inbox</span>
+<span>Intake Submissions</span>
+</div>
+<span class="font-mono text-[10px] px-1.5 py-0.2 rounded bg-tertiary/20 text-tertiary border border-tertiary/30 font-semibold">14</span>
+</a>
+<a class="flex items-center gap-2.5 px-3 py-2 rounded text-on-surface-variant hover:text-white hover:bg-surface-container/60 transition-colors text-xs font-medium" href="#">
+<span class="material-symbols-outlined text-[18px]">menu_book</span>
+<span>Actuarial Guidelines</span>
+</a>
+<a class="flex items-center justify-between px-3 py-2 rounded text-on-surface-variant hover:text-white hover:bg-surface-container/60 transition-colors text-xs font-medium" href="#">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-[18px]">analytics</span>
+<span>Portfolio Loss Rates</span>
+</div>
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+</a>
+<a class="flex items-center gap-2.5 px-3 py-2 rounded text-on-surface-variant hover:text-white hover:bg-surface-container/60 transition-colors text-xs font-medium" href="#">
+<span class="material-symbols-outlined text-[18px]">gavel</span>
+<span>Compliance &amp; DOI Audit</span>
+</a>
+</nav>
+</div>
+<!-- Telemetry System Status -->
+<div class="p-3 border-t border-outline-variant/30 bg-surface-container-lowest/80">
+<div class="p-2.5 rounded bg-surface-container-low border border-outline-variant/30 flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<span class="font-mono text-[10px] text-on-surface-variant uppercase font-medium">Active Policy SLA</span>
+<span class="font-mono text-[10px] text-tertiary font-bold">T-Minus 02:44:19</span>
+</div>
+<div class="w-full h-1 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-gradient-to-r from-secondary to-primary w-[72%]"></div>
+</div>
+</div>
+<div class="flex items-center justify-between pt-2 px-1">
+<div class="flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span>
+<span class="font-mono text-[10px] text-on-surface-variant/80">Terminal 09 · Connected</span>
+</div>
+<span class="font-mono text-[10px] text-outline">v4.8.2</span>
+</div>
+</div>
+</aside>
+<!-- Main Work Area with Pl-60 Offset -->
+<div class="pl-60">
+<!-- Top Executive Header Strip -->
+<header class="sticky top-0 z-40 bg-surface-container-lowest/90 backdrop-blur-xl border-b border-outline-variant/30">
+<!-- Global Bar -->
+<div class="h-16 px-6 flex items-center justify-between gap-4">
+<!-- Submission Breadcrumbs & File ID -->
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-9 h-9 rounded-lg bg-surface-container border border-outline-variant/40 flex items-center justify-center text-primary flex-shrink-0">
+<span class="material-symbols-outlined text-[20px]">apartment</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-2">
+<span class="font-sans font-bold text-white text-sm truncate">742 Evergreen Terr, Austin TX 78704</span>
+<span class="font-mono text-[10px] px-2 py-0.5 rounded bg-surface-container border border-outline-variant/50 text-on-surface-variant">POL-2025-9842</span>
+<span class="font-mono text-[10px] px-2 py-0.5 rounded bg-secondary/10 border border-secondary/30 text-secondary font-medium">Travis CRE #0104</span>
+</div>
+<span class="font-sans text-xs text-on-surface-variant">
+              Commercial Habitational (4-Plex) · Sub-Line: Excess Property · Standard Binder Review
+            </span>
+</div>
+</div>
+<!-- Binding Action Bar -->
+<div class="flex items-center gap-2.5 flex-shrink-0">
+<button class="h-9 px-3.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold flex items-center gap-1.5 transition-all shadow-[0_0_15px_rgba(16,185,129,0.25)] border border-emerald-400/40" onclick="alert('Binding Approved with Endorsement PL-204 attached.');">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+<span>Approve with Endorsements</span>
+</button>
+<button class="h-9 px-3.5 rounded-lg bg-amber-600 hover:bg-amber-500 text-white text-xs font-semibold flex items-center gap-1.5 transition-all shadow-[0_0_15px_rgba(245,158,11,0.25)] border border-amber-400/40" onclick="alert('Submission referred to Senior Actuarial Committee with Condition Protocol.');">
+<span class="material-symbols-outlined text-[16px]">gavel</span>
+<span>Refer to Senior Committee</span>
+</button>
+<button class="h-9 px-3 rounded-lg bg-surface-container hover:bg-red-950/40 text-rose-300 border border-outline-variant/50 hover:border-rose-500/40 text-xs font-medium flex items-center gap-1.5 transition-all" onclick="alert('Statutory decline notice drafted according to Texas DOI standards.');">
+<span class="material-symbols-outlined text-[16px]">block</span>
+<span>Decline Policy</span>
+</button>
+<div class="h-6 w-px bg-outline-variant/40 mx-1"></div>
+<button class="w-9 h-9 rounded-lg bg-surface-container border border-outline-variant/40 hover:border-primary/40 flex items-center justify-center text-on-surface-variant hover:text-white transition-colors" title="Export Audit Dossier">
+<span class="material-symbols-outlined text-[18px]">download</span>
+</button>
+<div class="flex items-center gap-2 pl-1">
+<div class="w-8 h-8 rounded-lg bg-indigo-950 border border-indigo-500/30 flex items-center justify-center text-primary font-bold text-xs">
+              SJ
+            </div>
+</div>
+</div>
+</div>
+<!-- Executive Decision Summary Strip -->
+<div class="px-6 py-2.5 bg-surface-container-low/70 border-t border-outline-variant/20 flex flex-wrap items-center justify-between gap-4">
+<div class="flex items-center gap-6">
+<!-- Overall Grade -->
+<div class="flex items-center gap-2">
+<span class="font-mono text-[10px] text-on-surface-variant uppercase tracking-wider">Assessed Risk Grade:</span>
+<div class="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/30">
+<span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+<span class="font-sans font-bold text-xs text-amber-300">Grade C- / Elevated Risk</span>
+<span class="font-mono text-[10px] text-amber-400/80">(62.4 / 100)</span>
+</div>
+</div>
+<!-- Premium Impact Surcharge -->
+<div class="flex items-center gap-2">
+<span class="font-mono text-[10px] text-on-surface-variant uppercase tracking-wider">Actuarial Surcharge:</span>
+<span class="font-mono font-bold text-xs text-amber-300">+$2,110 / yr</span>
+<span class="font-mono text-[10px] text-on-surface-variant">(Base: $8,450)</span>
+</div>
+<!-- Expected Loss Ratio Impact -->
+<div class="flex items-center gap-2">
+<span class="font-mono text-[10px] text-on-surface-variant uppercase tracking-wider">Projected Loss Ratio:</span>
+<span class="font-mono font-bold text-xs text-rose-400">78.2%</span>
+<span class="font-mono text-[10px] text-rose-400/80 flex items-center">
+<span class="material-symbols-outlined text-[12px]">trending_up</span> +36.2% over target
+            </span>
+</div>
+</div>
+<!-- Valuation Badges -->
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-1.5">
+<span class="font-mono text-[10px] text-on-surface-variant">Limit:</span>
+<span class="font-mono text-xs text-white font-semibold">$1,850,000</span>
+</div>
+<span class="text-outline-variant text-xs">•</span>
+<div class="flex items-center gap-1.5">
+<span class="font-mono text-[10px] text-on-surface-variant">TIV:</span>
+<span class="font-mono text-xs text-white font-semibold">$2,400,000</span>
+</div>
+<span class="text-outline-variant text-xs">•</span>
+<div class="flex items-center gap-1.5">
+<span class="font-mono text-[10px] text-on-surface-variant">Rate/100:</span>
+<span class="font-mono text-xs text-amber-400 font-semibold">$0.428</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Cockpit Body -->
+<main class="p-6 flex flex-col gap-6 max-w-[1680px] mx-auto">
+<!-- Executive Critical Alerts Banner -->
+<section class="glass-card rounded-xl p-4 border-l-4 border-l-amber-500 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+<div class="flex items-start gap-3.5">
+<div class="w-10 h-10 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 flex-shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[22px]">warning</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<h2 class="font-sans font-bold text-sm text-white">Direct Action Required · 2 Discrepancies Trigger Underwriting Referral</h2>
+<span class="font-mono text-[10px] px-2 py-0.5 rounded bg-rose-500/15 text-rose-300 border border-rose-500/30 font-semibold">Material Omission</span>
+</div>
+<p class="font-sans text-xs text-on-surface-variant mt-1 leading-relaxed">
+              Ground truth aerial sensors detected an <span class="text-white font-medium">unreported in-ground pool (420 sq ft, unlatched)</span> contradicted by application section 4.B, and <span class="text-white font-medium">severe granular asphalt roof shingle wear</span> incompatible with the claimed 2021 installation.
+            </p>
+</div>
+</div>
+<div class="flex items-center gap-2 self-end md:self-center flex-shrink-0">
+<span class="font-mono text-[11px] text-on-surface-variant mr-1">Recommended Disposition:</span>
+<button class="px-3 py-1.5 rounded bg-surface-container-high border border-outline-variant hover:border-primary/50 text-xs font-semibold text-white flex items-center gap-1.5 transition-all" onclick="document.getElementById('decision-notes').focus();">
+<span class="material-symbols-outlined text-[16px] text-amber-400">tune</span>
+<span>Review Endorsement Riders</span>
+</button>
+</div>
+</section>
+<!-- Section: Visual Evidence & Ground Truth Comparison -->
+<section class="grid grid-cols-1 xl:grid-cols-12 gap-6">
+<!-- Left 7 Cols: High Definition HUD Aerial Canvas -->
+<div class="xl:col-span-7 glass-card rounded-xl p-5 flex flex-col justify-between relative overflow-hidden">
+<div class="flex items-center justify-between mb-3.5">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-secondary text-[20px]">radar</span>
+<div>
+<h3 class="font-sans font-semibold text-sm text-white">Aerial Reality &amp; Sensor Intelligence</h3>
+<p class="font-sans text-[11px] text-on-surface-variant">High-fidelity orthomosaic validation • Resolution 0.05m/px</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="font-mono text-[10px] px-2 py-0.5 rounded bg-surface-container border border-outline-variant text-on-surface-variant">Surveyed: 12-Feb-2025</span>
+<span class="font-mono text-[10px] px-2 py-0.5 rounded bg-secondary/10 border border-secondary/30 text-secondary">Sensor Verified</span>
+</div>
+</div>
+<!-- Image Stage with Interactive HUD Hotspots -->
+<div class="relative w-full h-84 md:h-96 rounded-lg overflow-hidden bg-black/40 border border-outline-variant/50 group">
+<img alt="Austin Commercial Property Aerial Orthophoto" class="w-full h-full object-cover brightness-[0.92] contrast-[1.05] transition-transform duration-500 group-hover:scale-[1.01]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBgYk3nhtCWUASJ6dZ2BijsrWY4GmwjjV6vhWsVjybVoJXb8IvhHjdgeN816fc3zbpo3LUoWEql1obljCEjuwhRxeBvtHpIPMG2oxHNOlxyFeZU-YsU8dP2YpbvT0LY6Xj_oi8LLH_WtUOwVOa_2ZdKWf8roIerBM63jiySg3JKiCsUBWxHwKNeVwH_n1INvQcmPu155dPBGVZpqd5J8wNTj7WscRVE4GmrIr55I0DX93aEh_Gp7jY"/>
+<!-- HUD Overlay 1: Swimming Pool (Critical Omission) -->
+<div class="absolute top-[46%] right-[12%] w-40 h-32 hud-border-red rounded transition-all duration-300 hover:scale-105 cursor-pointer bg-red-950/25 backdrop-blur-[2px]">
+<div class="absolute -top-7 left-0 px-2 py-0.5 rounded bg-rose-600/90 text-white font-mono text-[10px] font-bold flex items-center gap-1 shadow-lg">
+<span class="material-symbols-outlined text-[12px]">pool</span>
+<span>UNREPORTED POOL (420 SQ FT)</span>
+</div>
+<div class="absolute bottom-1.5 left-1.5 right-1.5 px-1.5 py-1 rounded bg-black/80 font-mono text-[9px] text-rose-300 flex items-center justify-between">
+<span>Perimeter: Unfenced</span>
+<span class="font-bold text-rose-400">HIGH EXPOSURE</span>
+</div>
+</div>
+<!-- HUD Overlay 2: Shingle Wear & Granular Loss -->
+<div class="absolute top-[16%] left-[24%] w-48 h-36 hud-border-amber rounded transition-all duration-300 hover:scale-105 cursor-pointer bg-amber-950/20 backdrop-blur-[2px]">
+<div class="absolute -top-7 left-0 px-2 py-0.5 rounded bg-amber-600/90 text-white font-mono text-[10px] font-bold flex items-center gap-1 shadow-lg">
+<span class="material-symbols-outlined text-[12px]">roofing</span>
+<span>ROOF WEAR PATTERN (18% CURL)</span>
+</div>
+<div class="absolute bottom-1.5 left-1.5 right-1.5 px-1.5 py-1 rounded bg-black/80 font-mono text-[9px] text-amber-300 flex items-center justify-between">
+<span>Expected Life: ~15 Yrs</span>
+<span class="font-bold text-amber-400">CONTRADICTS 2021 CLAIM</span>
+</div>
+</div>
+<!-- HUD Overlay 3: Canopy Tree Buffer -->
+<div class="absolute top-[10%] right-[42%] w-32 h-26 hud-border-cyan rounded transition-all duration-300 hover:scale-105 cursor-pointer bg-teal-950/20 backdrop-blur-[2px]">
+<div class="absolute -top-7 left-0 px-2 py-0.5 rounded bg-teal-600/90 text-white font-mono text-[10px] font-bold flex items-center gap-1 shadow-lg">
+<span class="material-symbols-outlined text-[12px]">forest</span>
+<span>CANOPY OVERHANG &lt; 4.2 FT</span>
+</div>
+<div class="absolute bottom-1.5 left-1.5 right-1.5 px-1.5 py-1 rounded bg-black/80 font-mono text-[9px] text-teal-300">
+                Wind/Hail branch hazard
+              </div>
+</div>
+<!-- HUD Reticle Footer -->
+<div class="absolute bottom-3 left-3 right-3 p-2 px-3 rounded bg-surface-container-lowest/90 backdrop-blur-md border border-outline-variant/40 flex items-center justify-between text-xs">
+<div class="flex items-center gap-4 font-mono text-[10px]">
+<span class="flex items-center gap-1.5 text-rose-300"><span class="w-2 h-2 rounded-full bg-rose-500"></span>Attractive Nuisance</span>
+<span class="flex items-center gap-1.5 text-amber-300"><span class="w-2 h-2 rounded-full bg-amber-500"></span>Structural Wear</span>
+<span class="flex items-center gap-1.5 text-teal-300"><span class="w-2 h-2 rounded-full bg-teal-400"></span>Vegetative Hazard</span>
+</div>
+<span class="font-mono text-[10px] text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px]">mouse</span> Hover/Inspect Features
+              </span>
+</div>
+</div>
+<!-- Bottom Micro-Metrics Strip -->
+<div class="grid grid-cols-3 gap-3 mt-3 pt-1">
+<div class="p-2.5 rounded bg-surface-container-low border border-outline-variant/30 flex flex-col">
+<span class="font-mono text-[10px] text-on-surface-variant">Footprint Verified</span>
+<span class="font-mono text-xs font-bold text-white mt-0.5">4,620 sq ft (Concordant)</span>
+</div>
+<div class="p-2.5 rounded bg-surface-container-low border border-outline-variant/30 flex flex-col">
+<span class="font-mono text-[10px] text-on-surface-variant">FEMA Flood Classification</span>
+<span class="font-mono text-xs font-bold text-emerald-400 mt-0.5">Zone X (Minimal Exposure)</span>
+</div>
+<div class="p-2.5 rounded bg-surface-container-low border border-outline-variant/30 flex flex-col">
+<span class="font-mono text-[10px] text-on-surface-variant">Defensible Space Delta</span>
+<span class="font-mono text-xs font-bold text-amber-300 mt-0.5">4.2ft (Req: 10.0ft min)</span>
+</div>
+</div>
+</div>
+<!-- Right 5 Cols: Stated Disclosure vs Verified Reality -->
+<div class="xl:col-span-5 glass-card rounded-xl p-5 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between pb-3 border-b border-outline-variant/30 mb-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">compare</span>
+<h3 class="font-sans font-semibold text-sm text-white">Inspection vs. Verified Reality</h3>
+</div>
+<span class="font-mono text-[10px] text-on-surface-variant px-2 py-0.5 rounded bg-surface-container border border-outline-variant/40">Audit Trail Active</span>
+</div>
+<!-- Discrepancy Comparison Cards -->
+<div class="flex flex-col gap-2.5">
+<!-- Comparison Item 1: Pool / Water Hazard (Critical Divergence) -->
+<div class="p-3 rounded-lg bg-rose-950/20 border border-rose-500/30 flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-rose-400 text-[16px]">error</span>
+<span class="font-sans font-bold text-xs text-rose-200">Recreational Water / Attractive Nuisance</span>
+</div>
+<span class="font-mono text-[10px] px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 font-bold">MATERIAL OMISSION</span>
+</div>
+<div class="grid grid-cols-2 gap-2 text-xs">
+<div class="p-2 rounded bg-black/40 border border-rose-500/10">
+<span class="font-mono text-[10px] text-on-surface-variant uppercase block">Broker Application</span>
+<span class="font-sans text-xs text-rose-300 font-medium">"None on premises" (Sec 4.B)</span>
+</div>
+<div class="p-2 rounded bg-black/40 border border-rose-500/20">
+<span class="font-mono text-[10px] text-on-surface-variant uppercase block">Aerial Sensor Finding</span>
+<span class="font-sans text-xs text-white font-medium">In-ground pool, no perimeter latch</span>
+</div>
+</div>
+<div class="text-[11px] text-on-surface-variant flex items-center gap-1.5 pt-0.5">
+<span class="material-symbols-outlined text-[13px] text-amber-400">arrow_forward</span>
+<span><strong>Actuarial Directive:</strong> Add Pool Liability Rider PL-204 (+$1,200) &amp; warranty fence within 30 days.</span>
+</div>
+</div>
+<!-- Comparison Item 2: Roof Age vs Condition -->
+<div class="p-3 rounded-lg bg-amber-950/20 border border-amber-500/30 flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-amber-400 text-[16px]">report_problem</span>
+<span class="font-sans font-bold text-xs text-amber-200">Roof Replacement Claim vs Degradation</span>
+</div>
+<span class="font-mono text-[10px] px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold">DISCREPANCY</span>
+</div>
+<div class="grid grid-cols-2 gap-2 text-xs">
+<div class="p-2 rounded bg-black/40 border border-amber-500/10">
+<span class="font-mono text-[10px] text-on-surface-variant uppercase block">Broker Claim</span>
+<span class="font-sans text-xs text-amber-300 font-medium">Installed Q3 2021 (3 Years Old)</span>
+</div>
+<div class="p-2 rounded bg-black/40 border border-amber-500/20">
+<span class="font-mono text-[10px] text-on-surface-variant uppercase block">Aerial Visual Diagnostics</span>
+<span class="font-sans text-xs text-white font-medium">Significant granule loss, 18% edge curling</span>
+</div>
+</div>
+<div class="text-[11px] text-on-surface-variant flex items-center gap-1.5 pt-0.5">
+<span class="material-symbols-outlined text-[13px] text-amber-400">arrow_forward</span>
+<span><strong>Actuarial Directive:</strong> Require certified paid roofer invoice or impose $10k Wind/Hail deductible.</span>
+</div>
+</div>
+<!-- Comparison Item 3: Occupancy & Structural Footprint (Verified True) -->
+<div class="p-3 rounded-lg bg-surface-container-low border border-outline-variant/30 flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-emerald-400 text-[16px]">check_circle</span>
+<span class="font-sans font-semibold text-xs text-white">Habitational Footprint &amp; Occupancy</span>
+</div>
+<span class="font-mono text-[10px] px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300 font-semibold">VERIFIED ACCURATE</span>
+</div>
+<p class="font-sans text-xs text-on-surface-variant">
+                  4 Units fully leased (100% occupancy). Physical footprint matches county recorder record at 4,620 sq ft. ISO Class 1 frame construction validated.
+                </p>
+</div>
+</div>
+</div>
+<!-- Document Excerpt Quote Box -->
+<div class="mt-4 p-3 rounded-lg bg-surface-container-lowest border border-outline-variant/30">
+<div class="flex items-center justify-between mb-1.5">
+<span class="font-mono text-[10px] text-on-surface-variant uppercase font-medium">Inspector Disclosure Excerpt</span>
+<span class="font-mono text-[10px] text-primary hover:underline cursor-pointer">Inspection_Dossier_Austin.pdf §14</span>
+</div>
+<p class="font-mono text-[11px] text-on-surface-variant/90 leading-relaxed italic">
+              "Owner verbal disclosure asserts full tear-off shingle replacement in 2021. Backyard area features standard concrete patio slab with no recreational water hazards recorded during physical walkthrough."
+            </p>
+</div>
+</div>
+</section>
+<!-- Section: Core Risk Drivers & Financial Adjustments -->
+<section class="grid grid-cols-1 xl:grid-cols-12 gap-6">
+<!-- Left 4 Cols: Actuarial Financial Summary -->
+<div class="xl:col-span-4 glass-card rounded-xl p-5 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between pb-3 border-b border-outline-variant/30 mb-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary text-[20px]">payments</span>
+<h3 class="font-sans font-semibold text-sm text-white">Underwriting Premium Breakdown</h3>
+</div>
+<span class="font-mono text-[10px] text-on-surface-variant">Annualized Rate</span>
+</div>
+<div class="flex flex-col gap-3">
+<!-- Base -->
+<div class="p-3 rounded-lg bg-surface-container-low border border-outline-variant/30 flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-sans font-medium text-xs text-white">Baseline Habitational Premium</span>
+<span class="font-mono text-[10px] text-on-surface-variant">ISO Class 1 Frame · $1.85M limit</span>
+</div>
+<span class="font-mono text-sm font-semibold text-white">$8,450 / yr</span>
+</div>
+<!-- Surcharge 1: Pool -->
+<div class="p-3 rounded-lg bg-rose-950/20 border border-rose-500/20 flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-sans font-medium text-xs text-rose-200">Attractive Nuisance Surcharge</span>
+<span class="font-mono text-[10px] text-rose-300/80">Endorsement PL-204 Liability Rider</span>
+</div>
+<span class="font-mono text-sm font-bold text-rose-300">+$1,200 / yr</span>
+</div>
+<!-- Surcharge 2: Roof & Wear -->
+<div class="p-3 rounded-lg bg-amber-950/20 border border-amber-500/20 flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-sans font-medium text-xs text-amber-200">Wind/Hail Age Discrepancy Loading</span>
+<span class="font-mono text-[10px] text-amber-300/80">Roof wear index 18% &gt; expected baseline</span>
+</div>
+<span class="font-mono text-sm font-bold text-amber-300">+$910 / yr</span>
+</div>
+<!-- Total Adjusted -->
+<div class="p-3.5 rounded-lg bg-surface-container border border-primary/40 flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-sans font-bold text-xs text-white">Total Underwritten Premium</span>
+<span class="font-mono text-[10px] text-primary">Surcharge loading applied: +24.9%</span>
+</div>
+<div class="flex flex-col items-end">
+<span class="font-mono text-base font-bold text-emerald-400">$10,560 / yr</span>
+<span class="font-mono text-[10px] text-on-surface-variant">$0.571 per $100 TIV</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Micro-guarantee -->
+<div class="flex items-center gap-2 pt-4 text-on-surface-variant font-mono text-[10px]">
+<span class="material-symbols-outlined text-[14px] text-secondary">verified</span>
+<span>Actuarial rate verified against Texas 2025 Filing</span>
+</div>
+</div>
+<!-- Right 8 Cols: Risk Drivers & Executive Impact Cards -->
+<div class="xl:col-span-8 glass-card rounded-xl p-5 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between pb-3 border-b border-outline-variant/30 mb-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">tune</span>
+<h3 class="font-sans font-semibold text-sm text-white">Risk Drivers &amp; Policy Conditioning Directives</h3>
+</div>
+<div class="flex items-center gap-2 font-mono text-[10px] text-on-surface-variant">
+<span>Standard Benchmark: 100 pts</span>
+<span class="text-outline-variant">•</span>
+<span class="text-amber-400 font-bold">Assessed: 62.4 pts</span>
+</div>
+</div>
+<!-- Risk Driver Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<!-- Card 1: Attractive Nuisance -->
+<div class="p-4 rounded-xl bg-surface-container-low border border-rose-500/30 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-2">
+<span class="w-7 h-7 rounded-lg bg-rose-500/20 text-rose-400 flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">pool</span>
+</span>
+<span class="font-mono text-[11px] font-bold text-rose-400">-20.0 Pts Impact</span>
+</div>
+<h4 class="font-sans font-bold text-xs text-white">Unreported In-Ground Pool</h4>
+<p class="font-sans text-[11px] text-on-surface-variant mt-1.5 leading-relaxed">
+                    Unlatched perimeter creates acute premise liability risk. Immediate carrier exposure if unresolved.
+                  </p>
+</div>
+<div class="mt-4 pt-3 border-t border-outline-variant/30 flex flex-col gap-1.5">
+<span class="font-mono text-[10px] text-on-surface-variant uppercase">Required Directive</span>
+<span class="font-sans text-xs text-white font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-emerald-400">add_task</span>
+                    Mandatory 4-ft Latching Fence
+                  </span>
+<span class="font-mono text-[10px] text-rose-300">+$1,200 Liability Rider</span>
+</div>
+</div>
+<!-- Card 2: Roof Degradation -->
+<div class="p-4 rounded-xl bg-surface-container-low border border-amber-500/30 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-2">
+<span class="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">roofing</span>
+</span>
+<span class="font-mono text-[11px] font-bold text-amber-400">-12.0 Pts Impact</span>
+</div>
+<h4 class="font-sans font-bold text-xs text-white">Shingle Wear &amp; Granule Loss</h4>
+<p class="font-sans text-[11px] text-on-surface-variant mt-1.5 leading-relaxed">
+                    Visual telemetry contradicts 2021 install claim. High probability of partial repair misstatement.
+                  </p>
+</div>
+<div class="mt-4 pt-3 border-t border-outline-variant/30 flex flex-col gap-1.5">
+<span class="font-mono text-[10px] text-on-surface-variant uppercase">Required Directive</span>
+<span class="font-sans text-xs text-white font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-emerald-400">add_task</span>
+                    Paid Contractor Invoice / Core Test
+                  </span>
+<span class="font-mono text-[10px] text-amber-300">$10,000 Wind/Hail Deductible</span>
+</div>
+</div>
+<!-- Card 3: Defensible Space / Vegetation -->
+<div class="p-4 rounded-xl bg-surface-container-low border border-outline-variant/40 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-2">
+<span class="w-7 h-7 rounded-lg bg-teal-500/20 text-teal-400 flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">park</span>
+</span>
+<span class="font-mono text-[11px] font-bold text-teal-400">-5.6 Pts Impact</span>
+</div>
+<h4 class="font-sans font-bold text-xs text-white">Canopy Clearance Hazard</h4>
+<p class="font-sans text-[11px] text-on-surface-variant mt-1.5 leading-relaxed">
+                    Live oak overhang within 4.2ft of north-east roof eaves. Windstorm branch impact risk.
+                  </p>
+</div>
+<div class="mt-4 pt-3 border-t border-outline-variant/30 flex flex-col gap-1.5">
+<span class="font-mono text-[10px] text-on-surface-variant uppercase">Required Directive</span>
+<span class="font-sans text-xs text-white font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-emerald-400">add_task</span>
+                    30-Day Tree Trimming Warranty
+                  </span>
+<span class="font-mono text-[10px] text-on-surface-variant">Standard Binder Condition</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Linear Attributions Progress Bar -->
+<div class="mt-4 pt-3 border-t border-outline-variant/30">
+<div class="flex items-center justify-between text-xs mb-1.5">
+<span class="font-sans font-medium text-white">Deduction Profile Breakdown</span>
+<span class="font-mono text-[11px] text-on-surface-variant">Baseline 100.0 → Remaining <strong class="text-amber-400">62.4</strong></span>
+</div>
+<div class="w-full h-2 rounded-full bg-surface-container overflow-hidden flex">
+<div class="h-full bg-indigo-500" style="width: 62.4%" title="Retained Score: 62.4%"></div>
+<div class="h-full bg-rose-500" style="width: 20.0%" title="Pool Omission: -20%"></div>
+<div class="h-full bg-amber-500" style="width: 12.0%" title="Roof Wear: -12%"></div>
+<div class="h-full bg-teal-500" style="width: 5.6%" title="Canopy Hazard: -5.6%"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section: Compliance Checklist & Actionable Underwriting Directives -->
+<section class="grid grid-cols-1 xl:grid-cols-12 gap-6 pb-12">
+<!-- Left 6 Cols: Actuarial Guidelines & Compliance Matrix -->
+<div class="xl:col-span-6 glass-card rounded-xl p-5 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between pb-3 border-b border-outline-variant/30 mb-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[20px]">checklist</span>
+<h3 class="font-sans font-semibold text-sm text-white">Underwriting Compliance Directives</h3>
+</div>
+<span class="font-mono text-[10px] px-2 py-0.5 rounded bg-surface-container border border-outline-variant text-on-surface-variant">Texas Ruleset 2025.2</span>
+</div>
+<!-- Guideline Streamlined Checklist -->
+<div class="flex flex-col gap-2.5">
+<!-- Check 1: Attractive Nuisance -->
+<div class="p-3 rounded-lg bg-surface-container-low border border-rose-500/20 flex items-start justify-between gap-3">
+<div class="flex items-start gap-2.5">
+<span class="material-symbols-outlined text-rose-400 text-[18px] mt-0.5">cancel</span>
+<div class="flex flex-col">
+<span class="font-sans font-semibold text-xs text-white">Attractive Nuisance &amp; Barrier Standard</span>
+<span class="font-sans text-[11px] text-on-surface-variant mt-0.5">
+                      Commercial habitational with pools mandates 4-sided self-closing latched perimeter. Unfenced presence triggers automatic referral.
+                    </span>
+</div>
+</div>
+<span class="font-mono text-[10px] px-2 py-0.5 rounded bg-rose-500/15 text-rose-300 font-bold flex-shrink-0">
+                  FLAGGED · REFER
+                </span>
+</div>
+<!-- Check 2: Material Cross-Modal Divergence -->
+<div class="p-3 rounded-lg bg-surface-container-low border border-amber-500/20 flex items-start justify-between gap-3">
+<div class="flex items-start gap-2.5">
+<span class="material-symbols-outlined text-amber-400 text-[18px] mt-0.5">warning</span>
+<div class="flex flex-col">
+<span class="font-sans font-semibold text-xs text-white">Cross-Source Divergence Threshold</span>
+<span class="font-sans text-[11px] text-on-surface-variant mt-0.5">
+                      Omission delta exceeds 15% actuarial impact. Mandatory committee or senior underwriter override signature required for binder.
+                    </span>
+</div>
+</div>
+<span class="font-mono text-[10px] px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-bold flex-shrink-0">
+                  CONDITIONAL
+                </span>
+</div>
+<!-- Check 3: Max Roof Age -->
+<div class="p-3 rounded-lg bg-surface-container-low border border-outline-variant/30 flex items-start justify-between gap-3">
+<div class="flex items-start gap-2.5">
+<span class="material-symbols-outlined text-emerald-400 text-[18px] mt-0.5">check_circle</span>
+<div class="flex flex-col">
+<span class="font-sans font-semibold text-xs text-white">Maximum Roof Age Threshold</span>
+<span class="font-sans text-[11px] text-on-surface-variant mt-0.5">
+                      Carrier ceiling is 20 years. Stated 2021 install passes guideline subject to invoice verification.
+                    </span>
+</div>
+</div>
+<span class="font-mono text-[10px] px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300 font-medium flex-shrink-0">
+                  PASSED
+                </span>
+</div>
+<!-- Check 4: Flood Zone -->
+<div class="p-3 rounded-lg bg-surface-container-low border border-outline-variant/30 flex items-start justify-between gap-3">
+<div class="flex items-start gap-2.5">
+<span class="material-symbols-outlined text-emerald-400 text-[18px] mt-0.5">check_circle</span>
+<div class="flex flex-col">
+<span class="font-sans font-semibold text-xs text-white">FEMA Special Flood Hazard Classification</span>
+<span class="font-sans text-[11px] text-on-surface-variant mt-0.5">
+                      Location sits outside 100-year and 500-year flood zones (Zone X). No mandatory flood rider warranted.
+                    </span>
+</div>
+</div>
+<span class="font-mono text-[10px] px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300 font-medium flex-shrink-0">
+                  PASSED
+                </span>
+</div>
+</div>
+</div>
+<div class="pt-4 border-t border-outline-variant/20 flex items-center justify-between text-on-surface-variant font-mono text-[10px]">
+<span>Audit Standard: ISO Class 1 Habitational</span>
+<span class="text-secondary font-semibold">2 Passed • 1 Flagged • 1 Conditional</span>
+</div>
+</div>
+<!-- Right 6 Cols: Quick Disposition Console & Endorsement Riders -->
+<div class="xl:col-span-6 glass-card rounded-xl p-5 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between pb-3 border-b border-outline-variant/30 mb-3.5">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">assignment_turned_in</span>
+<h3 class="font-sans font-semibold text-sm text-white">Underwriting Disposition &amp; Binder Terms</h3>
+</div>
+<button class="font-mono text-[11px] text-primary hover:text-indigo-300 flex items-center gap-1 transition-colors" onclick="
+                  document.getElementById('decision-notes').value = '[BINDER CONDITIONS PROTOCOL - AUSTIN HABITATIONAL 4-PLEX]\n1. Attach Pool Liability Rider (PL-204) with +$1,200 annual premium adjustment.\n2. Warranty of 4-ft self-closing perimeter fence required within 30 days of binder issue.\n3. Roofer certificate of completion or invoice required to substantiate 2021 roof claim, else $10,000 Wind/Hail deductible applies.';
+                ">
+<span class="material-symbols-outlined text-[14px]">auto_fix_high</span>
+<span>Auto-populate Stipulations</span>
+</button>
+</div>
+<!-- Pre-filled Action Rationale Editor -->
+<div class="flex flex-col gap-1.5 mb-3.5">
+<label class="font-mono text-[10px] text-on-surface-variant uppercase font-medium" for="decision-notes">
+                Mandatory Policy Stipulations &amp; Actuarial Rationale
+              </label>
+<textarea class="w-full p-3 rounded-lg bg-surface-container-lowest border border-outline-variant/50 focus:border-primary text-white font-mono text-xs leading-relaxed focus:outline-none focus:ring-1 focus:ring-primary placeholder-on-surface-variant/40" id="decision-notes" placeholder="Specify binding endorsements, warranty requirements, or statutory reasons for decline..." rows="4">[BINDER CONDITIONS PROTOCOL - AUSTIN HABITATIONAL 4-PLEX]
+1. Attach Pool Liability Rider (PL-204) with +$1,200 annual premium adjustment.
+2. Warranty of 4-ft self-closing perimeter fence required within 30 days of binder issue.
+3. Roofer certificate of completion or invoice required to substantiate 2021 roof claim, else $10,000 Wind/Hail deductible applies.</textarea>
+</div>
+<!-- Attached Policy Endorsements & Badges -->
+<div class="flex flex-col gap-1.5 mb-4">
+<span class="font-mono text-[10px] text-on-surface-variant uppercase font-medium">Auto-Attached Policy Riders</span>
+<div class="flex flex-wrap gap-2">
+<span class="px-2.5 py-1 rounded bg-surface-container border border-outline-variant/50 text-xs font-sans text-white flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[13px] text-emerald-400">check_circle</span>
+<span>PL-204: Pool Liability Endorsement (+$1,200/yr)</span>
+</span>
+<span class="px-2.5 py-1 rounded bg-surface-container border border-outline-variant/50 text-xs font-sans text-white flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[13px] text-emerald-400">check_circle</span>
+<span>W-30: 30-Day Latching Barrier Warranty</span>
+</span>
+<span class="px-2.5 py-1 rounded bg-surface-container border border-outline-variant/50 text-xs font-sans text-white flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[13px] text-emerald-400">check_circle</span>
+<span>WH-10K: Wind/Hail Deductible Contingency</span>
+</span>
+</div>
+</div>
+</div>
+<!-- Bottom Execution Row -->
+<div class="pt-3 border-t border-outline-variant/30 flex flex-col gap-2">
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+<button class="h-10 px-4 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-sans font-semibold text-xs flex items-center justify-center gap-2 transition-all shadow-[0_0_15px_rgba(16,185,129,0.2)]" onclick="alert('Submission approved with mandatory riders. Policy binder dispatched to broker.');">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+<span>Issue Conditional Binder ($10,560)</span>
+</button>
+<button class="h-10 px-4 rounded-lg bg-amber-600 hover:bg-amber-500 text-white font-sans font-semibold text-xs flex items-center justify-center gap-2 transition-all shadow-[0_0_15px_rgba(245,158,11,0.2)]" onclick="alert('Digital committee referral packet created. Sent to Sarah Jenkins &amp; Committee.');">
+<span class="material-symbols-outlined text-[18px]">send</span>
+<span>Submit to Referral Committee</span>
+</button>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant font-mono text-[10px] px-1 pt-1">
+<span>Sign-off Authority: Sarah Jenkins, Senior Underwriter (Auth Level 4)</span>
+<button class="text-rose-400 hover:text-rose-300 hover:underline" onclick="alert('Statutory 10-day formal rejection generated.');">Decline Without Endorsement</button>
+</div>
+</div>
+</div>
+</section>
+</main>
+</div>
+</body></html>

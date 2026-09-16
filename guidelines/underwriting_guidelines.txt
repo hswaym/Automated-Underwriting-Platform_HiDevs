@@ -1,0 +1,183 @@
+PROPERTY & CASUALTY INSURANCE UNDERWRITING GUIDELINES
+Version 2.0 | Effective January 2025
+
+════════════════════════════════════════════════════════════════════════════════
+
+§1. GENERAL ELIGIBILITY
+
+§1.1 Property Types — Eligible
+• Single-family dwellings (1-4 units)
+• Townhouses and condominiums (owner-occupied)
+• Vacation/seasonal homes (occupied ≥30 days/year)
+
+§1.2 Property Types — Ineligible
+• Commercial properties or mixed-use with >25% commercial space
+• Properties with active code violations or unresolved stop-work orders
+• Vacant properties (unoccupied >60 consecutive days)
+• Properties in active foreclosure proceedings
+
+§1.3 Occupancy Requirements
+• Primary residences and secondary homes are eligible
+• Short-term rentals (<30-day leases) require surplus lines referral
+• Properties rented ≥9 months/year require landlord policy endorsement
+
+════════════════════════════════════════════════════════════════════════════════
+
+§2. CONSTRUCTION & AGE
+
+§2.1 Construction Type
+ACCEPT: Frame, brick veneer, masonry, concrete block, log homes with treated logs
+REFER: Earth construction (adobe, rammed earth), straw bale, shipping container conversions
+DECLINE: Tarpaper, cardboard, or non-code construction materials
+
+§2.2 Age & Condition
+• Properties built after 1970: Standard rating
+• Properties built 1950–1969: Accept if roof, electrical, plumbing, HVAC updated within 20 years
+• Properties built before 1950: Require inspection report confirming system modernization
+
+§2.3 Foundation
+ACCEPT: Concrete slab, crawl space, full basement with no active water intrusion
+REFER: Properties with foundation cracks >¼" width, visible settling, or bowing walls
+DECLINE: Properties with active foundation failure or structural engineer red flag
+
+════════════════════════════════════════════════════════════════════════════════
+
+§3. ROOF
+
+§3.1 Age Thresholds
+• Architectural shingles: ≤25 years
+• 3-tab asphalt shingles: ≤20 years
+• Metal, tile, slate: ≤40 years
+• Flat/modified bitumen: ≤15 years
+
+Properties with roofs exceeding age threshold require certification of serviceable condition
+or replacement within 12 months of policy inception.
+
+§3.2 Roof Condition Flags
+ACCEPT: Minor wear consistent with age, no missing shingles
+REFER: Moderate granule loss, <5 missing/damaged shingles, curling at edges
+DECLINE: Widespread damage, exposed sheathing, sag/structural deflection, active leaks
+
+§3.3 High-Wind & Hail Exposure
+Properties in Tier 1 wind zones (coastal regions, tornado alleys) with roofs >10 years old
+require wind mitigation inspection. Hail-prone regions (TX, CO, OK panhandle) with roofs
+>15 years require hail-resistance certification (Class 3 or 4 impact rating) for standard rates.
+
+════════════════════════════════════════════════════════════════════════════════
+
+§4. ELECTRICAL, PLUMBING, HVAC
+
+§4.1 Electrical Systems
+ACCEPT: Circuit breakers, copper wiring, grounded outlets, GFCI in wet areas
+REFER: Knob-and-tube wiring (if less than 30% of home and not actively used)
+DECLINE: Active knob-and-tube, aluminum branch wiring without remediation, Federal Pacific or Zinsco panels
+
+§4.2 Plumbing
+ACCEPT: Copper, PEX, CPVC
+REFER: Galvanized steel (if ≥50 years old), polybutylene piping (requires inspection)
+DECLINE: Lead pipes, polybutylene with documented leak history
+
+§4.3 Heating Systems
+ACCEPT: Central forced air, heat pump, radiant, baseboard electric
+REFER: Wood stove (primary heat source), space heaters as sole heating
+DECLINE: Unvented kerosene heaters, unapproved LPG systems
+
+════════════════════════════════════════════════════════════════════════════════
+
+§5. HAZARD & ENVIRONMENTAL EXPOSURE
+
+§5.1 Flood Zone
+• Zones X, C (minimal flood hazard): Standard acceptance
+• Zones A, AE, V, VE (FEMA Special Flood Hazard Area): Require National Flood Insurance Program (NFIP) policy; underlying property coverage accepted
+• Properties with 2+ flood claims in past 10 years: DECLINE
+
+§5.2 Wildfire Risk
+• Low/Moderate risk zones: Standard
+• High/Extreme risk zones: Require defensible space certification (100 ft clearance, ember-resistant vents, non-combustible siding) for standard rates; otherwise refer to surplus lines
+
+§5.3 Earthquake
+Properties in seismic zones 3–4 (CA, PacNW, AK): Standard acceptance; earthquake coverage optional
+Unreinforced masonry in seismic zones: REFER for structural engineer assessment
+
+§5.4 Proximity to Coast
+• >1 mile from coastline: Standard
+• ≤1 mile: Wind mitigation inspection required; properties on barrier islands or with <10 ft elevation above sea level referred to coastal underwriting unit
+
+════════════════════════════════════════════════════════════════════════════════
+
+§6. CLAIMS HISTORY
+
+§6.1 Prior Claims — Applicant
+• 0 claims in 5 years: Standard rating
+• 1 claim in 5 years: Standard with 5% increase if claim >$10k
+• 2 claims in 5 years: 15% surcharge; 3+ claims → REFER
+• Any liability claim >$50k: REFER
+
+§6.2 Property Loss History (C.L.U.E.)
+Properties with 2+ claims in past 7 years regardless of owner: REFER
+Exception: Single weather event affecting multiple properties in area (named storm, wildfire) not held against applicant
+
+════════════════════════════════════════════════════════════════════════════════
+
+§7. SPECIAL FEATURES & LIABILITIES
+
+§7.1 Pools & Trampolines
+• In-ground pool with 4-sided fence (≥4 ft, self-latching gate): ACCEPT
+• Above-ground pool with ladder removed when not in use: ACCEPT
+• Trampolines: Require safety net enclosure or liability exclusion
+
+§7.2 Dogs & Animal Liability
+ACCEPT: Most breeds with no bite history
+REFER: 1 bite incident (requires liability exclusion or higher limits)
+DECLINE: 2+ bite incidents, or breeds on restricted list (Pit Bull, Rottweiler, Doberman, Akita, Chow, Wolf-hybrid) without canine liability coverage from surplus carrier
+
+§7.3 Home Business
+• Incidental office use (no clients visiting, no inventory): ACCEPT
+• Client-facing business (daycare, salon, therapy office): Require commercial GL policy
+
+§7.4 Detached Structures
+Detached garages, sheds, workshops ≤1000 sq ft: Included in standard coverage
+Structures >1000 sq ft or with commercial use: Schedule separately with valuation
+
+════════════════════════════════════════════════════════════════════════════════
+
+§8. COVERAGE & UNDERWRITING ACTIONS
+
+§8.1 Decision Matrix
+• APPROVE: All eligibility criteria met; standard or surcharged rates applied
+• REFER: One or more discretionary factors present; requires senior underwriter or specialized unit review
+• DECLINE: Ineligible property type, unacceptable risk factor, or regulatory restriction
+
+§8.2 Information Requests
+When documentation is incomplete, issue Information Request (IR) with 15-day response deadline.
+Common IRs: roof certification, 4-point inspection (electrical/plumbing/HVAC/roof), wind mitigation, appraisal, engineer report
+
+§8.3 Policy Conditions
+Acceptance may include:
+• Repair/replacement requirements (e.g., "Replace roof within 12 months")
+• Coverage exclusions (e.g., trampoline liability exclusion)
+• Increased deductibles (e.g., 2% wind/hail deductible in coastal zones)
+• Mandatory endorsements (e.g., water backup, equipment breakdown)
+
+════════════════════════════════════════════════════════════════════════════════
+
+§9. DOCUMENT INTERPRETATION GUIDANCE
+
+§9.1 Inspection Reports
+• Photos showing property exterior, roof, foundation, electrical panel, plumbing, HVAC
+• Inspector comments in "Recommendations" or "Repair" sections are FLAGS — assess severity
+• "Informational" or "Monitor" items are generally acceptable; "Safety Concern" or "Immediate Repair" items require remediation before binding
+
+§9.2 Appraisal Reports
+• Verify replacement cost vs. market value (replacement cost used for Coverage A)
+• Note any functional obsolescence, deferred maintenance, or adverse site conditions
+• Appraiser's "Subject to" conditions must be cleared before policy issuance
+
+§9.3 Satellite & Aerial Imagery
+• Roof condition: Look for discoloration, moss/debris, tarp presence (indicates leak/damage)
+• Defensible space: Vegetation within 10 ft of structure in wildfire zones
+• Detached structures: Count and verify usage (storage vs. occupancy)
+
+════════════════════════════════════════════════════════════════════════════════
+
+END OF GUIDELINES
